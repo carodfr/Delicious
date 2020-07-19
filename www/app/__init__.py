@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 from app.db import db
 from app.views.productsBP import productsBP 
+from app.views.brandBP import brandBP 
 
 def create_app():
 
@@ -29,10 +30,11 @@ def create_app():
         db.create_all()
 
     # a simple page that says hello
-    @app.route('/test')
-    def hello():
-        return 'Hello, World!'
+    @app.route('/')
+    def root():
+        return redirect(url_for('productsBP.showCatalog'))
 
     app.register_blueprint(productsBP)
+    app.register_blueprint(brandBP)
 
     return app

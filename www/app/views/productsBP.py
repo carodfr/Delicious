@@ -3,10 +3,10 @@ from app.models.productModel import Product
 
 productsBP = Blueprint('products', __name__, url_prefix='/products')
 
-@productsBP.route('/')
-def showCatalog():
+@productsBP.route('/catalogue')
+def showCatalogue():
     products=Product.query.all()
-    return render_template('catalog.html', products=products)
+    return render_template('catalogue.html', products=products)
 
 @productsBP.route('/checkout')
 def checkout():
