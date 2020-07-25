@@ -4,12 +4,14 @@ class ProductType(db.Model):
     __tablename__ = 'product_types'
 
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(80))
+    name = db.Column(db.String(80))
+    description = db.Column(db.String(80))
 
     products = db.relationship('Product', lazy='dynamic')
 
-    def __init__(self, type):
-        self.type = type
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
 
     @classmethod
     def find_by_name(cls, name):

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Catalog{% endblock %}
+{% block title %}Catalogue{% endblock %}
 {% block main %}
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
@@ -45,30 +45,44 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+
 <div class="album py-5 bg-light">
-    <div class="container">
-      <div class="row">
-      {% for product in products %}
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">{{ product.description }}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">{{ product.minutes_preparation }} mins</small>
+  <div class="container">
+  {% for productType in productTypes %}
+    <div class="row">
+      <h1>{{ productType.description }}</h1>
+    </div>
+  {% for batchproducts in productType.products|batch(3) %}
+    <div class="row">
+      {% for product  in batchproducts %}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <img src="{{ product.image_path }}" class="card-img-top" alt="{{ product.description }}">
+          <div class="card-body">
+            <h2>{{ product.name }}</h2>
+            <p class="card-text">{{ product.description }}</p>
+            <h3>{{ product.price }}<h3>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-primary">Buy</button>
               </div>
+              <small class="text-muted">{{ product.minutes_preparation }} mins</small>
             </div>
           </div>
         </div>
-        {% endfor %}
       </div>
+      {% endfor %}
     </div>
+  {% endfor %}
+  {% endfor %}
   </div>
+</div>
+
 <div class="fixed-bottom">
   <a class="btn btn-danger float-right btn-buy" href="/products/checkout">Checkout</a>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="/scripts/catalogue.js"></script>
 {% endblock %}

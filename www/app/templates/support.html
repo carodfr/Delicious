@@ -1,71 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Catalog{% endblock %}
+{% block title %}About us{% endblock %}
 {% block main %}
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#myCarousel" data-slide-to="1"></li>
-    <li data-target="#myCarousel" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="img-fluid" src="/images/carousel-1.jpg" alt="First slide">
-      <div class="container">
-        <div class="carousel-caption text-left">
-          <h1>The food that you want, when you want</h1>
-          <p>In three simple steps you can be enjoying a tasteful dish, just select the food that you want, click on the checkout button and wait for the delivery</p>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img class="img-fluid" src="/images/carousel-2.jpg" alt="First slide">
-      <div class="container">
-        <div class="carousel-caption">
-          <h1>Now its even easier</h1>
-          <p>The next version will come with Google and Apple payment options integrated. Easier and safer</p>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img class="img-fluid" src="/images/carousel-3.jpg" alt="First slide">
-      <div class="container">
-        <div class="carousel-caption text-right">
-          <h1>Always improving</h1>
-          <p>Our new dishes are coming soon</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+<div class="about-container">
+  <h1>Problems? no problem</h1>
+  <p>Our team is working to give you the best experience, nonetheless you can contact us to the next numbers if you experience any problem</p>
+  <p>434 32546 / 545 53456</p>
+  <p>Our support hours are between 9am and 7pm</p>
 </div>
-<div class="album py-5 bg-light">
-    <div class="container">
-      <div class="row">
-      {% for product in products %}
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-            <div class="card-body">
-              <p class="card-text">{{ product.description }}</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">{{ product.minutes_preparation }} mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
 {% endblock %}
