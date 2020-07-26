@@ -8,7 +8,8 @@ class OrderStatus(db.Model):
 
     orders = db.relationship('Order', lazy='dynamic')
 
-    def __init__(self, status):
+    def __init__(self, _id, status):
+        self.id=_id
         self.status = status
 
     @classmethod
@@ -22,6 +23,12 @@ class OrderStatus(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
+    @classmethod
+    def init_data(cls):
+        cls(1,'Being prepared').save_to_db()
+        cls(2,'In route').save_to_db()
+        cls(3,'Delivered').save_to_db()
 
 
 class Order(db.Model):
@@ -43,7 +50,7 @@ class Order(db.Model):
     order_status_id = db.Column(db.Integer, db.ForeignKey('order_status.id'))
     status = db.relationship('order_status.id')
 
-    def __init__(self, customer_firstname, customer_lastname, customer_address, date, total, user_id, product_id, order_status_id):
+    def __init__(self, customer_firstname, customer_lastname, customer_address, date, total, user_id, product_id):
         self.customer_firstname=customer_firstname
         self.customer_lastname=customer_lastname
         self.customer_address=customer_address
@@ -51,7 +58,7 @@ class Order(db.Model):
         self.total=total
         self.user_id=user_id
         self.product_id=product_id
-        self.order_status_id=order_status_id
+        self.order_status_id=1 # the first state
 
     @classmethod
     def find_by_id(cls, id):

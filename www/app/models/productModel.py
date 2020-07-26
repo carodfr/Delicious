@@ -9,7 +9,8 @@ class ProductType(db.Model):
 
     products = db.relationship('Product', lazy='dynamic')
 
-    def __init__(self, name, description):
+    def __init__(self, _id, name, description):
+        self.id=_id
         self.name = name
         self.description = description
 
@@ -25,6 +26,11 @@ class ProductType(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    @classmethod
+    def init_data(cls):
+        cls(1, "Food", "To calm the hunger").save_to_db()
+        cls(2, "Drinks", "To refresh yourself").save_to_db()
+        cls(3, "Desserts", "At last").save_to_db()
 
 class Product(db.Model):
     __tablename__ = 'products'
@@ -40,7 +46,7 @@ class Product(db.Model):
     product_type_id = db.Column(db.Integer, db.ForeignKey('product_types.id'))
     product_type = db.relationship('ProductType')
 
-    orders = db.relationship('Order', lazy='dynamic')
+#    orders = db.relationship('Order', lazy='dynamic')
 
     def __init__(self, product_type_id, name, price, quantity, description, minutes_preparation,image_path):
         self.name = name
@@ -62,3 +68,10 @@ class Product(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
+    @classmethod
+    def init_data(cls):
+        cls(1, "Hamburger", 6.5, 10, "A 150Gr grilled meat hamburger. The dish comes with potatoes and salad", 15, "/images/hamburger.jpg").save_to_db()
+        cls(2, "Lemonade", 1.5, 7, "250cc limonade", 15, "/images/lemonade.jpg").save_to_db()
+        cls(3, "icecream", 2, 7, "Vanille ice cream with or baked cake", 14, "/images/icecream.jpg").save_to_db()
+

@@ -1,4 +1,5 @@
-from db import db
+from app.db import db
+from passlib.hash import pbkdf2_sha512
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -8,7 +9,8 @@ class Role(db.Model):
 
     users = db.relationship('User', lazy='dynamic')
 
-    def __init__(self, name, description):
+    def __init__(self, _id, name):
+        self.id = _id
         self.name = name
 
     @classmethod
@@ -23,13 +25,17 @@ class Role(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    @classmethod
+    def init_data(cls):
+        cls(1,'Administrator').save_to_db()
+        cls(2,'Client').save_to_db()
 
 class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
-    password = db.Column(db.String(80))
+    password = db.Column(db.String(130))
     firstname = db.Column(db.String(80))
     lastname = db.Column(db.String(80))
     address = db.Column(db.String(80))
@@ -37,11 +43,11 @@ class User(db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     role = db.relationship('Role')
 
-    orders = db.relationship('Order', lazy='dynamic')
+#    orders = db.relationship('Order', lazy='dynamic')
 
     def __init__(self, username, password, firstname, lastname, address):
         self.username = username
-        self.password = password
+        self.password = pbkdf2_sha512.encrypt(password)
         self.firstname = firstname
         self.lastname = lastname
         self.address = address
@@ -55,14 +61,14 @@ class User(db.Model):
         return cls.query.filter_by(username=username).first()
 
     @classmethod
+    def check_login(cls, username):
+        return cls.query.filter_by(username=username, password=pbkdf2_sha512.encrypt(password)).first()
+
+    @classmethod
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
-    def create_user(cls, username, password):
-        pass
-
-    @classmethod
-    def create_admin(cls, username, password):
-        pass
+    def init_data(cls):
+        cls('admin', '123456', '-', '-', '-').save_to_db()
 
