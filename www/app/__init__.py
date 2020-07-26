@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from app.db import db
 from app.views.productsBP import productsBP 
 from app.views.brandBP import brandBP 
+from app.views.userBP import userBP 
 from app.models.productModel import ProductType, Product
 
 def create_app():
@@ -37,12 +38,13 @@ def create_app():
         #Product(3, "icecream", 2, 7, "Vanille ice cream with or baked cake", 14, "/images/icecream.jpg").save_to_db()
 
 
-    # a simple page that says hello
+    # redirection to the catalogue page
     @app.route('/')
     def root():
         return redirect(url_for('products.showCatalogue'))
 
     app.register_blueprint(productsBP)
     app.register_blueprint(brandBP)
+    app.register_blueprint(userBP)
 
     return app

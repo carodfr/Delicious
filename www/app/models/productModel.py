@@ -40,6 +40,8 @@ class Product(db.Model):
     product_type_id = db.Column(db.Integer, db.ForeignKey('product_types.id'))
     product_type = db.relationship('ProductType')
 
+    orders = db.relationship('Order', lazy='dynamic')
+
     def __init__(self, product_type_id, name, price, quantity, description, minutes_preparation,image_path):
         self.name = name
         self.price = price
