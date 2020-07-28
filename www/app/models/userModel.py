@@ -61,8 +61,12 @@ class User(db.Model):
         return cls.query.filter_by(username=username).first()
 
     @classmethod
-    def check_login(cls, username):
-        return cls.query.filter_by(username=username, password=pbkdf2_sha512.encrypt(password)).first()
+    def check_login(cls, username, password):
+        current_user=cls.find_by_username(username)
+        if current_user and pbkdf2_sha512.verify(password, current_user.password):
+            return current_user
+        else:
+            return None
 
     @classmethod
     def find_by_id(cls, _id):

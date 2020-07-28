@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}Sing in{% endblock %}
 {% block main %}
-<form class="form-signin">
+<form class="form-signin" method="post">
   <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
   <label for="inputUser" class="sr-only">User name</label>
-  <input type="text" id="inputUser" class="form-control" placeholder="User name" required autofocus>
+  <input type="text" id="inputUsername" name="inputUsername" class="form-control" placeholder="User name" required autofocus>
   <label for="inputPassword" class="sr-only">Password</label>
-  <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 </form>
 {% endblock %}

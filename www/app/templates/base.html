@@ -11,7 +11,7 @@
       <a class="p-2 text-white-50" href="/brand/support">Support</a>
       <a class="p-2 text-white-50" href="/brand/about">About</a>
     </nav>
-    {% if session.user %}
+    {% if session.username %}
     <a class="btn btn-outline-primary" href="/user/logout">Sign out</a>
     {% else %}
     <a class="btn btn-outline-primary" href="/user/login">Sign in</a>
