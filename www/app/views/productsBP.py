@@ -1,4 +1,4 @@
-from flask import (Blueprint, render_template)
+from flask import Blueprint, render_template, request, flash
 from app.models.productModel import ProductType
 from app.security import requires_permission
 
@@ -9,7 +9,9 @@ def showCatalogue():
     productTypes=ProductType.query.all()
     return render_template('catalogue.html', productTypes=productTypes)
 
-@productsBP.route('/checkout')
+@productsBP.route('/checkout', methods=['POST'])
 @requires_permission('Administrator', 'Client')
 def checkout():
+    cart = request.form['cart']
+    flash(cart)
     return render_template('checkout.html')
