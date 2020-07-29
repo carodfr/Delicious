@@ -18,7 +18,7 @@ def register():
         if user_exist:
             flash('The username already exist')
         else:
-            User(username, password, firstname, lastname, address).save_to_db()
+            User.create_client(username, password, firstname, lastname, address).save_to_db()
             session['username'] = username
             return redirect('/')
 

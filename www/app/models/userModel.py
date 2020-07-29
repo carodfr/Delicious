@@ -45,12 +45,13 @@ class User(db.Model):
 
 #    orders = db.relationship('Order', lazy='dynamic')
 
-    def __init__(self, username, password, firstname, lastname, address):
+    def __init__(self, username, password, firstname, lastname, address, role_id):
         self.username = username
         self.password = pbkdf2_sha512.encrypt(password)
         self.firstname = firstname
         self.lastname = lastname
         self.address = address
+        self.role_id=role_id
 
     def save_to_db(self):
         db.session.add(self)
@@ -73,6 +74,14 @@ class User(db.Model):
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
+    def create_administrator(cls, username, password, firstname, lastname, address):
+        return cls(username, password, firstname, lastname, address, 1)
+
+    @classmethod
+    def create_client(cls, username, password, firstname, lastname, address):
+        return cls(username, password, firstname, lastname, address, 2)
+
+    @classmethod
     def init_data(cls):
-        cls('admin', '123456', '-', '-', '-').save_to_db()
+        cls.create_administrator('admin', '123456', '-', '-', '-').save_to_db()
 

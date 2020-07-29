@@ -1,5 +1,6 @@
 from flask import (Blueprint, render_template)
 from app.models.productModel import ProductType
+from app.security import requires_permission
 
 productsBP = Blueprint('products', __name__, url_prefix='/products')
 
@@ -9,5 +10,6 @@ def showCatalogue():
     return render_template('catalogue.html', productTypes=productTypes)
 
 @productsBP.route('/checkout')
+@requires_permission('Administrator', 'Client')
 def checkout():
     return render_template('checkout.html')
