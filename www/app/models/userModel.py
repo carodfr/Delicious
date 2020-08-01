@@ -43,7 +43,7 @@ class User(db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     role = db.relationship('Role')
 
-#    orders = db.relationship('Order', lazy='dynamic')
+    #orders = db.relationship('Order', lazy='dynamic')
 
     def __init__(self, username, password, firstname, lastname, address, role_id):
         self.username = username

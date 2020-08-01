@@ -58,6 +58,10 @@ class Product(db.Model):
         self.product_type_id=product_type_id
 
     @classmethod
+    def find_by_id(cls, _id):
+        return cls.query.filter_by(id=_id).first()
+
+    @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
 
