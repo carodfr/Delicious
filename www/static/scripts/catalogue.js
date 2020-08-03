@@ -14,5 +14,5 @@ function checkout(){
         return;
     }
     $("#cart").val(sessionStorage.getItem('cart'));
-    $("#checkoutForm").submit();
+    $("#catalogueForm").submit();
 }

@@ -10,7 +10,7 @@ from app.views.userBP import userBP
 
 from app.models.productModel import ProductType, Product
 from app.models.userModel import Role, User
-#from app.models.orderModel import OrderStatus
+from app.models.orderModel import OrderStatus, Order
 
 def create_app():
 
@@ -30,14 +30,14 @@ def create_app():
     db.init_app(app)
 
     #initialization of the database and the initial data
-    @app.before_first_request
+    #@app.before_first_request
     def create_database():
         db.create_all()
-#        ProductType.init_data()
-#        Product.init_data()
-#        Role.init_data()
-#        User.init_data()
-#        OrderStatus.init_data()
+        ProductType.init_data()
+        Product.init_data()
+        Role.init_data()
+        User.init_data()
+        OrderStatus.init_data()
 
     # redirection to the catalogue page
     @app.route('/')

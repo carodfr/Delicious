@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, flash, session
+from flask import Blueprint, render_template, request, flash, session, redirect
 import json
 
 from app.models.productModel import ProductType, Product
 from app.models.userModel import User
+from app.models.orderModel import Order
 from app.security import requires_permission
 
 productsBP = Blueprint('products', __name__, url_prefix='/products')
@@ -29,6 +30,22 @@ def checkout():
 @productsBP.route('/orders', methods=['GET', 'POST'])
 @requires_permission('Administrator', 'Client')
 def complete_transaction():
-    pass
+    current_user=User.find_by_username(session['username'])
+    if request.method == 'POST':
+        deliveryAddress=request.form['inputDeliveryAddress']
+        first_name=request.form['inputFirstName']
+        last_name=request.form['inputLastName']
+        billing_address=request.form['inputBillingAddress']
+        dict_cart=json.loads(request.form['cart'])
+        current_order=Order(first_name, last_name, billing_address, current_user.id).save_to_db()
+        for product_id in dict_cart:
+            current_order.add_product(product_id, dict_cart[product_id])
+    orders=Order.query.all() if current_user.role.name == 'Administrator' else Order.find_by_user_id(current_user.id)
+    return render_template('orders.html', orders=orders)
 
+@productsBP.route('/orders/<int:order_id>')
+@requires_permission('Administrator')
+def promote_order(order_id):
+    Order.find_by_id(order_id).promote_status()
+    return redirect('/products/orders')
 

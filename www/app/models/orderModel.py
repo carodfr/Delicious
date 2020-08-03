@@ -1,5 +1,9 @@
 from app.db import db
 
+from sqlalchemy.sql import func
+
+from app.models.productModel import Product
+
 class OrderStatus(db.Model):
     __tablename__ = 'order_status'
 
@@ -31,38 +35,26 @@ class OrderStatus(db.Model):
         cls(3,'Delivered').save_to_db()
 
 
-class Order(db.Model):
-    __tablename__ = 'orders'
+class ProductOrdered(db.Model):
+    __tablename__ = 'products_ordered'
 
     id = db.Column(db.Integer, primary_key=True)
-    customer_firstname = db.Column(db.String(80))
-    customer_lastname = db.Column(db.String(80))
-    customer_address = db.Column(db.String(80))
-    date = db.Column(db.Date)
-    total = db.Column(db.Float(precision=2))
+    product_quantity = db.Column(db.Integer)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    user = db.relationship('Users')
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id'))
+    order = db.relationship('Order')
 
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
-    products = db.relationship('products.id')
+    product = db.relationship('Product')
 
-    order_status_id = db.Column(db.Integer, db.ForeignKey('order_status.id'))
-    status = db.relationship('order_status.id')
-
-    def __init__(self, customer_firstname, customer_lastname, customer_address, date, total, user_id, product_id):
-        self.customer_firstname=customer_firstname
-        self.customer_lastname=customer_lastname
-        self.customer_address=customer_address
-        self.date=date
-        self.total=total
-        self.user_id=user_id
-        self.product_id=product_id
-        self.order_status_id=1 # the first state
+    def __init__(self, order_id, product_id, product_quantity):
+        self.order_id = order_id
+        self.product_id = product_id
+        self.product_quantity = product_quantity
 
     @classmethod
-    def find_by_id(cls, id):
-        return cls.query.filter_by(id=id).first()
+    def find_by_order_id(cls, order_id):
+        return cls.query.filter_by(order_id=order_id).first()
 
     def save_to_db(self):
         db.session.add(self)
@@ -71,3 +63,59 @@ class Order(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
+
+ 
+class Order(db.Model):
+    __tablename__ = 'orders'
+
+    id = db.Column(db.Integer, primary_key=True)
+    customer_firstname = db.Column(db.String(80))
+    customer_lastname = db.Column(db.String(80))
+    customer_address = db.Column(db.String(80))
+    date = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    total = db.Column(db.Float(precision=2))
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User')
+
+    products_ordered = db.relationship('ProductOrdered', lazy='dynamic')
+
+    order_status_id = db.Column(db.Integer, db.ForeignKey('order_status.id'))
+    order_status = db.relationship('OrderStatus')
+
+    def __init__(self, customer_firstname, customer_lastname, customer_address, user_id):
+        self.customer_firstname=customer_firstname
+        self.customer_lastname=customer_lastname
+        self.customer_address=customer_address
+        self.total=0
+        self.user_id=user_id
+        self.order_status_id=1 # the first state
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
+    @classmethod
+    def find_by_user_id(cls, user_id):
+        return cls.query.filter_by(user_id=user_id)
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def add_product(self, product_id, product_quantity):
+        if(self.id==None):
+            self.save_to_db()
+        self.total+=Product.find_by_id(product_id).price
+        self.save_to_db()
+        ProductOrdered(self.id, product_id, product_quantity).save_to_db()
+
+    def promote_status(self):
+        if self.order_status_id<3:
+            self.order_status_id+=1
+            self.save_to_db()
