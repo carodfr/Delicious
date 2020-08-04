@@ -16,6 +16,9 @@
                   <th>Date</th>
                   <th>Total</th>
                   <th>Order Status</th>
+                  {% if allow_update %}
+                  <th></th>
+                  {% endif %}
                 </tr>
               </thead>
               <tbody>
@@ -30,6 +33,10 @@
                   <td>{{ order.date }}</td>
                   <td>{{ order.total }}</td>
                   <td>{{ order.order_status.status }}</td>
+                  {% if allow_update %}
+                  <td><a href="/products/orders/{{ order.id }}" class="badge badge-primary">Next step</a></td>
+                  {% endif %}
+
                 </tr>
               {% endfor %}
               {% else %}

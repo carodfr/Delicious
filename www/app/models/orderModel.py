@@ -97,8 +97,12 @@ class Order(db.Model):
         return cls.query.filter_by(id=id).first()
 
     @classmethod
+    def get_all(cls):
+        return cls.query.order_by(cls.date.desc()).all()
+
+    @classmethod
     def find_by_user_id(cls, user_id):
-        return cls.query.filter_by(user_id=user_id)
+        return cls.query.filter_by(user_id=user_id).order_by(cls.date.desc())
 
     def save_to_db(self):
         db.session.add(self)
@@ -111,7 +115,7 @@ class Order(db.Model):
     def add_product(self, product_id, product_quantity):
         if(self.id==None):
             self.save_to_db()
-        self.total+=Product.find_by_id(product_id).price
+        self.total+=Product.find_by_id(product_id).price * quantity
         self.save_to_db()
         ProductOrdered(self.id, product_id, product_quantity).save_to_db()
 

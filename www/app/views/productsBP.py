@@ -37,11 +37,15 @@ def complete_transaction():
         last_name=request.form['inputLastName']
         billing_address=request.form['inputBillingAddress']
         dict_cart=json.loads(request.form['cart'])
-        current_order=Order(first_name, last_name, billing_address, current_user.id).save_to_db()
+        current_order=Order(first_name, last_name, billing_address, current_user.id)
+        current_order.save_to_db()
         for product_id in dict_cart:
             current_order.add_product(product_id, dict_cart[product_id])
-    orders=Order.query.all() if current_user.role.name == 'Administrator' else Order.find_by_user_id(current_user.id)
-    return render_template('orders.html', orders=orders)
+    if current_user.role.name == 'Administrator':
+        return render_template('orders.html', orders=Order.get_all(), allow_update=True)
+    else:
+        return render_template('orders.html', orders=Order.find_by_user_id(current_user.id), allow_update=False)
+
 
 @productsBP.route('/orders/<int:order_id>')
 @requires_permission('Administrator')

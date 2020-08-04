@@ -83,5 +83,6 @@ class User(db.Model):
 
     @classmethod
     def init_data(cls):
-        cls.create_administrator('admin', '123456', '-', '-', '-').save_to_db()
+        cls.create_administrator('admin', '123456', 'admin', 'admin', 'working place').save_to_db()
+        cls.create_client('client', '123456', 'client_firstname', 'client_lastname', 'Street 1').save_to_db()
 
