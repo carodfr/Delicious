@@ -75,7 +75,19 @@ class Product(db.Model):
 
     @classmethod
     def init_data(cls):
-        cls(1, "Hamburger", 6.5, 10, "A 150Gr grilled meat hamburger. The dish comes with potatoes and salad", 15, "/images/hamburger.jpg").save_to_db()
-        cls(2, "Lemonade", 1.5, 7, "250cc limonade", 15, "/images/lemonade.jpg").save_to_db()
-        cls(3, "icecream", 2, 7, "Vanille ice cream with or baked cake", 14, "/images/icecream.jpg").save_to_db()
+        cls(1, "Hamburger", 6, 10, "A 150Gr grilled meat hamburger. Comes with french fries and salad.", 15, "/images/hamburger.jpg").save_to_db()
+        cls(1, "Chicken", 7, 10, "A 300Gr breaded chicken. comes with potatoes and salad", 15, "/images/chicken.jpg").save_to_db()
+        cls(1, "Paella", 9, 10, "Perfect for the seafood lovers, it comes with oysters and mussels", 15, "/images/paella.jpg").save_to_db()
+        cls(1, "Ribs", 12, 10, "300Gr Ribs. Comes with french fries.", 15, "/images/ribs.jpg").save_to_db()
+        cls(1, "Salmon", 12, 10, "Chilean salmon. Comes with vegetables.", 15, "/images/salmon.jpg").save_to_db()
+        cls(1, "Wrap", 7, 10, "Wrap with chicken and salad.", 15, "/images/wrap.jpg").save_to_db()
+        
+        cls(2, "Soda", 2, 7, "250cc soda. The soda comes with pieces of fruit.", 5, "/images/soda.jpg").save_to_db()
+        cls(2, "Juice", 3, 7, "330cc juice. Made of tropical fruits.", 9, "/images/juice.jpg").save_to_db()
+        cls(2, "Tee", 3, 7, "200cc Tee.", 12, "/images/tee.jpg").save_to_db()
+        cls(2, "Beer", 2, 7, "500cc Beer.", 3, "/images/beer.jpg").save_to_db()
+       
+        cls(3, "Pancakes", 4, 7, "Baked pancakes with syrup or honey", 12, "/images/pancakes.jpg").save_to_db()
+        cls(3, "Macaroons", 3, 7, "Try our special macaroon recipe.", 3, "/images/macaroons.jpg").save_to_db()
+        cls(3, "Forest fruit Cake", 3, 7, "This cake has a great variety of forest fruits, such as  blackberries and raspberries.", 5, "/images/cake.jpg").save_to_db()
 
