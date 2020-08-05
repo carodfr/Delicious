@@ -19,9 +19,9 @@ def checkout():
 
     user=User.find_by_username(session['username'])
 
-    dictCart=json.loads(request.form['cart'])
+    dict_cart=json.loads(request.form['cart'])
     registerReceipt=lambda product, quantity :{"name":product.name, "description":f"{quantity} unit(s) - {product.price} EUR per unit", "value":product.price*quantity}
-    receipt = [registerReceipt(Product.find_by_id(key), dictCart[key]) for key in dictCart]
+    receipt = [registerReceipt(Product.find_by_id(key), dict_cart[key]) for key in dict_cart]
     total=sum([register['value'] for register in receipt])
 
     return render_template('checkout.html', user=user, receipt=receipt, total=total)
