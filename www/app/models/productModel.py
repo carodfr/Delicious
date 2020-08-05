@@ -87,7 +87,7 @@ class Product(db.Model):
         cls(2, "Tee", 3, 7, "200cc Tee.", 12, "/images/tee.jpg").save_to_db()
         cls(2, "Beer", 2, 7, "500cc Beer.", 3, "/images/beer.jpg").save_to_db()
        
-        cls(3, "Pancakes", 4, 7, "Baked pancakes with syrup or honey", 12, "/images/pancakes.jpg").save_to_db()
+        cls(3, "Pancakes", 4, 7, "Baked pancakes with syrup or honey.", 12, "/images/pancakes.jpg").save_to_db()
         cls(3, "Macaroons", 3, 7, "Try our special macaroon recipe.", 3, "/images/macaroons.jpg").save_to_db()
         cls(3, "Forest fruit Cake", 3, 7, "This cake has a great variety of forest fruits, such as  blackberries and raspberries.", 5, "/images/cake.jpg").save_to_db()
 
