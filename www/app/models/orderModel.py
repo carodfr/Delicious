@@ -115,7 +115,7 @@ class Order(db.Model):
     def add_product(self, product_id, product_quantity):
         if(self.id==None):
             self.save_to_db()
-        self.total+=Product.find_by_id(product_id).price * quantity
+        self.total+=Product.find_by_id(product_id).price * product_quantity
         self.save_to_db()
         ProductOrdered(self.id, product_id, product_quantity).save_to_db()
 
